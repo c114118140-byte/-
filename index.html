@@ -48,17 +48,21 @@
             justify-content: center;
             align-items: center;
             text-align: center; 
+
+            display: flex;
+            justify-content: center; /* 水平置中 */
+            align-items: center;     /* 垂直置中 */
         }
 
         /* --- 2. 右側筆記本：分數與關卡 --- */
         #lblScore {
             top: 20%; 
-            left: 85%; /* 放在右側筆記本的位子 */
+            left: 88%; /* 放在右側筆記本的位子 */
             font-size: 28px;
         }
         #lblProgress {
             top: 28%; 
-            left: 85%;
+            left: 88%;
             font-size: 28px;
         }
 
@@ -86,6 +90,12 @@
             justify-content: center;
             align-items: center;
             transition: transform 0.1s; /* 點擊時的小動畫準備 */
+            font-size: 22px; /* 稍微縮小一點 */
+            padding-right: 15%; /* ⭐️ 關鍵：把文字往左邊擠，避開右邊白色的橡皮擦頭 */
+            padding-left: 2%;
+            /* 如果字還是太長，加上這行讓它自動換行 */
+            white-space: normal; 
+            line-height: 1.2;
         }
         
         /* 當滑鼠移上去或點擊時，按鈕會稍微放大，增加遊戲手感 */
@@ -105,7 +115,7 @@
     <div id="game-container">
         
         <div id="lblScore" class="ui-element">20</div>
-        <div id="lblProgress" class="ui-element">關卡: 3/20</div>
+        <div id="lblProgress" class="ui-element">3/20</div>
         
         <div id="lblQuestion" class="ui-element">一般無毒橡皮擦標榜不含哪種有害物質？</div>
 
