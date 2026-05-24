@@ -26,6 +26,7 @@
             position: relative; /* 關鍵：設定為相對定位，裡面的東西才能以它為基準點 */
             box-shadow: 0 0 20px rgba(0,0,0,0.5); /* 加點陰影增加質感 */
             overflow: hidden;
+            transform-origin: center center;
         }
 
         /* ⭐️ 所有 UI 元件共用的絕對定位設定 */
@@ -103,7 +104,7 @@
 
     <div id="game-container">
         
-        <div id="lblScore" class="ui-element">分數: 20</div>
+        <div id="lblScore" class="ui-element">20</div>
         <div id="lblProgress" class="ui-element">關卡: 3/20</div>
         <div id="lblTimer" class="ui-element">00:30</div>
         
@@ -155,7 +156,7 @@
             if (playerChoice === correctAns) {
                 alert("答對了！");
                 score += 10;
-                document.getElementById("lblScore").innerText = "分數: " + score;
+                document.getElementById("lblScore").innerText = score;
             } else {
                 alert("答錯了！");
             }
@@ -171,6 +172,27 @@
 
         // 遊戲開始，顯示第一題
         showQuestion();
+
+        function resizeGame() {
+        const container = document.getElementById('game-container');
+        // 取得目前瀏覽器視窗的寬高
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+    
+        // 計算寬度與高度的縮放比例，取比較小的那個，確保畫面不會被裁切
+        const scaleX = windowWidth / 1280;
+        const scaleY = windowHeight / 720;
+        const scale = Math.min(scaleX, scaleY);
+    
+        // 將計算出的比例套用到遊戲畫布上
+        container.style.transform = `scale(${scale})`;
+    }
+
+    // 監聽視窗大小改變事件 (例如手機旋轉、拉扯電腦視窗)
+    window.addEventListener('resize', resizeGame);
+
+    // 遊戲啟動時先執行一次縮放
+    resizeGame();
 
     </script>
 </body>
