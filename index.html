@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>富樂夢文具王挑戰賽</title>
+    <style>
+        /* 這裡放 CSS：設定背景圖與排版 */
+        body {
+            background-image: url('你的木桌背景圖.jpg');
+            background-size: cover; /* 讓圖片填滿手機螢幕 */
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            /* 這裡可以繼續加上按鈕的顏色與樣式 */
+        }
+    </style>
+</head>
+<body>
+
+    <h2 id="lblScore">分數: 0</h2>
+    <h3 id="lblTimer">時間: 30</h3>
+    <h1 id="lblQuestion">題目載入中...</h1>
+    
+    <div id="buttons">
+        <button class="btn" onclick="checkAnswer(0)" id="btn0">選項 A</button>
+        <button class="btn" onclick="checkAnswer(1)" id="btn1">選項 B</button>
+        <button class="btn" onclick="checkAnswer(2)" id="btn2">選項 C</button>
+        <button class="btn" onclick="checkAnswer(3)" id="btn3">選項 D</button>
+    </div>
+
+    <script>
+        // 這裡放 JavaScript：取代你原本的 C# 程式碼
+        // 在網頁前端，我們通常直接把題目寫成 JSON 陣列，比讀取 txt 檔更穩定
+        const questions = [
+            {
+                q: "富樂夢最著名的產品『消字靈』，其英文名稱是什麼？",
+                options: ["Eraser King", "Eraser King(特製版)", "Eraser King(彩虹版)", "Eraser King(工廠版)"],
+                ans: 0 // 正確答案是陣列的第 0 個
+            },
+            {
+                q: "一般無毒橡皮擦標榜不含哪種有害物質？",
+                options: ["塑化劑", "防腐劑", "螢光劑", "漂白水"],
+                ans: 0
+            }
+        ];
+
+        let currentQIndex = 0;
+        let score = 0;
+        let isOk = false;
+
+        function showQuestion() {
+            isOk = false;
+            let currentQ = questions[currentQIndex];
+            document.getElementById("lblQuestion").innerText = currentQ.q;
+            document.getElementById("btn0").innerText = currentQ.options[0];
+            document.getElementById("btn1").innerText = currentQ.options[1];
+            document.getElementById("btn2").innerText = currentQ.options[2];
+            document.getElementById("btn3").innerText = currentQ.options[3];
+        }
+
+        function checkAnswer(playerChoice) {
+            if (isOk) return; // 鎖定作答
+            isOk = true;
+
+            let correctAns = questions[currentQIndex].ans;
+            if (playerChoice === correctAns) {
+                alert("答對了！");
+                score += 10;
+                document.getElementById("lblScore").innerText = "分數: " + score;
+            } else {
+                alert("答錯了！");
+            }
+
+            // 準備下一題
+            currentQIndex++;
+            if (currentQIndex < questions.length) {
+                showQuestion();
+            } else {
+                alert("遊戲結束！總分：" + score);
+            }
+        }
+
+        // 遊戲開始，顯示第一題
+        showQuestion();
+    </script>
+</body>
+</html>
