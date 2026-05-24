@@ -5,35 +5,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>富樂夢文具王挑戰賽</title>
     <style>
-        /* 這裡放 CSS：設定背景圖與排版 */
+        /* 清除瀏覽器預設的邊距，讓背景貼齊邊緣 */
         body {
-            background-image: url('你的木桌背景圖.jpg');
-            background-size: cover; /* 讓圖片填滿手機螢幕 */
+            margin: 0;
+            padding: 0;
+            background-color: #222; /* 外圍底色設為深色 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* 讓內容在螢幕垂直置中 */
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+        }
+
+        /* ⭐️ 核心觀念：建立一個尺寸固定的「遊戲畫布」 */
+        #game-container {
+            width: 1280px;
+            height: 720px;
+            background-image: url('你的木桌背景圖.jpg'); /* 替換成你的檔名 */
+            background-size: cover;
+            position: relative; /* 關鍵：設定為相對定位，裡面的東西才能以它為基準點 */
+            box-shadow: 0 0 20px rgba(0,0,0,0.5); /* 加點陰影增加質感 */
+            overflow: hidden;
+        }
+
+        /* ⭐️ 所有 UI 元件共用的絕對定位設定 */
+        .ui-element {
+            position: absolute;
+            font-weight: bold;
+        }
+
+        /* --- 1. 題目文字排版 --- */
+        #lblQuestion {
+            top: 15%;            /* 距離頂部 15% */
+            left: 20%;           /* 距離左邊 20% */
+            width: 60%;          /* 寬度佔畫布的 60% (對齊白板) */
+            height: 25%;         /* 高度佔 25% */
+            font-size: 32px;
+            color: #333;
+            /* 讓文字在白板框內完美垂直+水平置中 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center; 
+        }
+
+        /* --- 2. 右側筆記本：分數與關卡 --- */
+        #lblScore {
+            top: 20%; 
+            left: 85%; /* 放在右側筆記本的位子 */
+            font-size: 28px;
+        }
+        #lblProgress {
+            top: 28%; 
+            left: 85%;
+            font-size: 28px;
+        }
+
+        /* --- 3. 中央彩虹鉛筆：計時器 --- */
+        #lblTimer {
+            top: 48%; 
+            left: 45%; 
+            width: 10%;
             text-align: center;
-            font-family: Arial, sans-serif;
+            font-size: 28px;
+            color: white; /* 為了在彩虹筆上看清楚，設為白色或深色 */
         }
+
+        /* --- 4. 答案按鈕排版與透明化 --- */
         .btn {
-            padding: 10px 20px;
-            margin: 10px;
+            position: absolute;
+            background: transparent; /* 背景透明 */
+            border: none;            /* 去除邊框 */
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
             cursor: pointer;
-            /* 這裡可以繼續加上按鈕的顏色與樣式 */
+            /* 讓按鈕內的文字置中 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.1s; /* 點擊時的小動畫準備 */
         }
+        
+        /* 當滑鼠移上去或點擊時，按鈕會稍微放大，增加遊戲手感 */
+        .btn:hover { transform: scale(1.05); }
+        .btn:active { transform: scale(0.95); }
+
+        /* 獨立設定四個按鈕的位置 (覆蓋在圖片的彩色橡皮擦上) */
+        #btn0 { top: 62%; left: 16%; width: 28%; height: 12%; } /* 黃色區域 */
+        #btn1 { top: 62%; left: 51%; width: 28%; height: 12%; } /* 粉色區域 */
+        #btn2 { top: 80%; left: 16%; width: 28%; height: 12%; } /* 藍色區域 */
+        #btn3 { top: 80%; left: 51%; width: 28%; height: 12%; } /* 綠色區域 */
+
     </style>
 </head>
 <body>
 
-    <h2 id="lblScore">分數: 0</h2>
-    <h3 id="lblTimer">時間: 30</h3>
-    <h1 id="lblQuestion">題目載入中...</h1>
-    
-    <div id="buttons">
-        <button class="btn" onclick="checkAnswer(0)" id="btn0">選項 A</button>
-        <button class="btn" onclick="checkAnswer(1)" id="btn1">選項 B</button>
-        <button class="btn" onclick="checkAnswer(2)" id="btn2">選項 C</button>
-        <button class="btn" onclick="checkAnswer(3)" id="btn3">選項 D</button>
+    <div id="game-container">
+        
+        <div id="lblScore" class="ui-element">分數: 20</div>
+        <div id="lblProgress" class="ui-element">關卡: 3/20</div>
+        <div id="lblTimer" class="ui-element">00:30</div>
+        
+        <div id="lblQuestion" class="ui-element">一般無毒橡皮擦標榜不含哪種有害物質？</div>
+
+        <button class="btn" id="btn0" onclick="checkAnswer(0)">塑化劑</button>
+        <button class="btn" id="btn1" onclick="checkAnswer(1)">防腐劑</button>
+        <button class="btn" id="btn2" onclick="checkAnswer(2)">螢光劑</button>
+        <button class="btn" id="btn3" onclick="checkAnswer(3)">漂白水</button>
+
     </div>
 
     <script>
+        
         // 這裡放 JavaScript：取代你原本的 C# 程式碼
         // 在網頁前端，我們通常直接把題目寫成 JSON 陣列，比讀取 txt 檔更穩定
         const questions = [
@@ -87,6 +171,7 @@
 
         // 遊戲開始，顯示第一題
         showQuestion();
+
     </script>
 </body>
 </html>
