@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>富樂夢文具王挑戰賽</title>
     <style>
         /* 清除瀏覽器預設的邊距，讓背景貼齊邊緣 */
@@ -25,6 +25,8 @@
             background-size: cover;
             position: relative;
             overflow: hidden;
+
+            flex-shrink: 0;
         }
     /* ⭐️ 關鍵修改：直式手機版建議以「中上方」為縮放基準，避免最上面的題目被切掉 */
             /*transform-origin: top center; 
