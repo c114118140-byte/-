@@ -19,14 +19,15 @@
 
         /* ⭐️ 核心觀念：建立一個尺寸固定的「遊戲畫布」 */
         #game-container {
-            width: 1280px;
-            height: 720px;
-            background-image: url('你的木桌背景圖.jpg'); /* 替換成你的檔名 */
+            width: 1080px;  /* ⭐️ 改成手機標準寬度 */
+            height: 1920px; /* ⭐️ 改成手機標準高度 */
+            background-image: url('富樂夢916.jpg'); 
             background-size: cover;
-            position: relative; /* 關鍵：設定為相對定位，裡面的東西才能以它為基準點 */
-            box-shadow: 0 0 20px rgba(0,0,0,0.5); /* 加點陰影增加質感 */
+            position: relative;
             overflow: hidden;
-            transform-origin: center center;
+        }
+    /* ⭐️ 關鍵修改：直式手機版建議以「中上方」為縮放基準，避免最上面的題目被切掉 */
+            /*transform-origin: top center; 
         }
 
         /* ⭐️ 所有 UI 元件共用的絕對定位設定 */
@@ -37,76 +38,59 @@
 
         /* --- 1. 題目文字排版 --- */
         #lblQuestion {
-            top: 15%;            /* 距離頂部 15% */
-            left: 20%;           /* 距離左邊 20% */
-            width: 60%;          /* 寬度佔畫布的 60% (對齊白板) */
-            height: 25%;         /* 高度佔 25% */
-            font-size: 32px;
+            top: 11%;            /* 往上移進白板 */
+            left: 15%;           /* 左右留白 */
+            width: 70%;          /* 寬度對齊白板 */
+            height: 16%;         /* 高度對齊白板 */
+            font-size: 36px;     /* 直式螢幕可以把字稍微放大 */
             color: #333;
-            /* 讓文字在白板框內完美垂直+水平置中 */
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center; 
-
-            display: flex;
-            justify-content: center; /* 水平置中 */
-            align-items: center;     /* 垂直置中 */
         }
 
         /* --- 2. 右側筆記本：分數與關卡 --- */
         #lblScore {
-            top: 20%; 
-            left: 88%; /* 放在右側筆記本的位子 */
-            font-size: 28px;
-        }
-        #lblProgress {
-            top: 28%; 
-            left: 88%;
-            font-size: 28px;
+            top: 74%;          /* 大幅下移到筆記本的位置 */
+            left: 41%;           /* 對齊「分數：」的右邊 */
+            width: 15%;
+            text-align: left;
+            font-size: 42px;
+            font-weight: bold;
         }
 
-        /* --- 3. 中央彩虹鉛筆：計時器 --- */
-        #lblTimer {
-            top: 48%; 
-            left: 45%; 
-            width: 10%;
-            text-align: center;
-            font-size: 28px;
-            color: white; /* 為了在彩虹筆上看清楚，設為白色或深色 */
+        #lblProgress {
+            top: 74%;          
+            left: 75%;           /* 對齊「關卡：」的右邊 */
+            width: 15%;
+            text-align: left;
+            font-size: 42px;
+            font-weight: bold;
         }
+       
 
         /* --- 4. 答案按鈕排版與透明化 --- */
         .btn {
             position: absolute;
-            background: transparent; /* 背景透明 */
-            border: none;            /* 去除邊框 */
+            background: transparent;
+            border: none;
             font-size: 28px;
             font-weight: bold;
             color: #333;
             cursor: pointer;
-            /* 讓按鈕內的文字置中 */
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: transform 0.1s; /* 點擊時的小動畫準備 */
-            font-size: 22px; /* 稍微縮小一點 */
-            padding-right: 15%; /* ⭐️ 關鍵：把文字往左邊擠，避開右邊白色的橡皮擦頭 */
-            padding-left: 2%;
-            /* 如果字還是太長，加上這行讓它自動換行 */
-            white-space: normal; 
-            line-height: 1.2;
         }
-        
-        /* 當滑鼠移上去或點擊時，按鈕會稍微放大，增加遊戲手感 */
-        .btn:hover { transform: scale(1.05); }
-        .btn:active { transform: scale(0.95); }
 
-        /* 獨立設定四個按鈕的位置 (覆蓋在圖片的彩色橡皮擦上) */
-        #btn0 { top: 62%; left: 16%; width: 28%; height: 12%; } /* 黃色區域 */
-        #btn1 { top: 62%; left: 51%; width: 28%; height: 12%; } /* 粉色區域 */
-        #btn2 { top: 80%; left: 16%; width: 28%; height: 12%; } /* 藍色區域 */
-        #btn3 { top: 80%; left: 51%; width: 28%; height: 12%; } /* 綠色區域 */
+/* 重新對準四個彩色區塊 (注意 top 數值是依序遞增的) */
+/* left 抓 20%，width 抓 60%，讓文字置中於彩色條 */
+        #btn0 { top: 33.5%; left: 20%; width: 60%; height: 7%; } /* 黃色 */
+        #btn1 { top: 42.0%; left: 20%; width: 60%; height: 7%; } /* 粉色 */
+        #btn2 { top: 50.5%; left: 20%; width: 60%; height: 7%; } /* 藍色 */
+        #btn3 { top: 59.0%; left: 20%; width: 60%; height: 7%; } /* 綠色 */
 
     </style>
 </head>
@@ -115,7 +99,7 @@
     <div id="game-container">
         
         <div id="lblScore" class="ui-element">20</div>
-        <div id="lblProgress" class="ui-element">3/20</div>
+        <div id="lblProgress" class="ui-element">0/20</div>
         
         <div id="lblQuestion" class="ui-element">一般無毒橡皮擦標榜不含哪種有害物質？</div>
 
@@ -155,6 +139,8 @@
             document.getElementById("btn1").innerText = currentQ.options[1];
             document.getElementById("btn2").innerText = currentQ.options[2];
             document.getElementById("btn3").innerText = currentQ.options[3];
+
+            document.getElementById("lblProgress").innerText = (currentQIndex + 1) + "/" + questions.length;
         }
 
         function checkAnswer(playerChoice) {
@@ -183,18 +169,24 @@
         showQuestion();
 
         function resizeGame() {
-        const container = document.getElementById('game-container');
-        // 取得目前瀏覽器視窗的寬高
-        const windowWidth = window.innerWidth;
-        const windowHeight = window.innerHeight;
+            const container = document.getElementById('game-container');
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
     
-        // 計算寬度與高度的縮放比例，取比較小的那個，確保畫面不會被裁切
-        const scaleX = windowWidth / 1280;
-        const scaleY = windowHeight / 720;
-        const scale = Math.min(scaleX, scaleY);
+    // ⭐️ 數字換成新的 1080 和 1920
+            const scaleX = windowWidth / 1080;
+            const scaleY = windowHeight / 1920;
     
-        // 將計算出的比例套用到遊戲畫布上
-        container.style.transform = `scale(${scale})`;
+    // 取得縮放比例
+            const scale = Math.min(scaleX, scaleY);
+    
+    // 套用縮放
+            container.style.transform = `scale(${scale})`;
+    
+    // (可選) 讓畫布在畫面上保持水平置中
+            const scaledWidth = 1080 * scale;
+            container.style.left = `${(windowWidth - scaledWidth) / 2}px`;
+
     }
 
     // 監聽視窗大小改變事件 (例如手機旋轉、拉扯電腦視窗)
